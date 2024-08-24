@@ -4,5 +4,13 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"  # Adjust port if necessary
+      - "8080:8080"
+
+  static-server:
+    build:
+      context: ./static-server
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+
 
