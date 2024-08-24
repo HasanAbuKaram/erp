@@ -64,4 +64,12 @@ Once the PR is merged:
   git push origin --delete static-server
   ```
 
+Delete the master branch both locally and remotely:
+
+Locally:
+$ git branch -d master
+
+Remotely:
+$ git push origin --delete master
+
 Creating a new branch and following these steps will help you maintain a clean workflow and ensure that new features are well-integrated into your main project.
