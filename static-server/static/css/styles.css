@@ -1,0 +1,9 @@
+body { font-family: Arial, sans-serif; }
+table { width: 60%; margin: 50px auto; border-collapse: collapse; }
+th, td { padding: 10px; text-align: left; border: 1px solid #ddd; }
+th { background-color: #f4f4f4; }
+.up { color: green; }
+.down { color: red; }
+button { margin: 5px; padding: 10px; border: none; border-radius: 5px; color: white; cursor: pointer; }
+.start { background-color: green; }
+.stop { background-color: red; }

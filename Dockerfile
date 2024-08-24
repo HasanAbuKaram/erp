@@ -21,8 +21,9 @@ FROM alpine:3.18
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the binary from the builder stage
+# Copy the binary and HTML files from the builder stage
 COPY --from=builder /app/main .
+COPY --from=builder /app/dashboard.html .
 
 # Expose the port on which the service will run (if applicable)
 EXPOSE 8080

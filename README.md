@@ -73,3 +73,9 @@ Remotely:
 $ git push origin --delete master
 
 Creating a new branch and following these steps will help you maintain a clean workflow and ensure that new features are well-integrated into your main project.
+
+remove build cache
+
+docker builder prune
+docker system prune
+https://techkluster.com/docker/questions-docker/how-to-clear-docker-cache/

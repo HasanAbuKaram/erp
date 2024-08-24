@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8081/css/styles.css">
+</head>
+    <!-- Your HTML content -->
+    <body onload="refreshPage()">
+		<h1 style="text-align: center;">Service Dashboard</h1>
+		<table>
+			<tr><th>Service</th><th>Status</th><th>Actions</th></tr>
+		{{range .}}
+			<tr>
+				<td>{{.Name}}</td>
+				<td class="{{.Status}}">{{.Status}}</td>
+				<td>
+					{{if eq .Status "down"}}
+					<form action="/start" method="post" style="display:inline;">
+						<input type="hidden" name="service" value="{{.Name}}">
+						<button type="submit" class="start">Start</button>
+					</form>
+					{{else}}
+					<form action="/stop" method="post" style="display:inline;">
+						<input type="hidden" name="service" value="{{.Name}}">
+						<button type="submit" class="stop">Stop</button>
+					</form>
+					{{end}}
+				</td>
+			</tr>
+		{{end}}
+		</table>
+</body>
+</html>

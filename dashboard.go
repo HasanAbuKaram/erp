@@ -65,14 +65,14 @@ func checkServiceTCP(wg *sync.WaitGroup, mu *sync.Mutex, name, host, port string
 }
 
 // restartContainer restarts a Docker container and logs the output
-func restartContainer(containerName string) error {
-	cmd := exec.Command("docker", "restart", containerName)
-	output, err := cmd.CombinedOutput()
-	if err != nil {
-		return fmt.Errorf("error restarting container %s: %s", containerName, string(output))
-	}
-	return nil
-}
+// func restartContainer(containerName string) error {
+// 	cmd := exec.Command("docker", "restart", containerName)
+// 	output, err := cmd.CombinedOutput()
+// 	if err != nil {
+// 		return fmt.Errorf("error restarting container %s: %s", containerName, string(output))
+// 	}
+// 	return nil
+// }
 
 // stopContainer stops a Docker container and logs the output
 func stopContainer(containerName string) error {
@@ -125,70 +125,26 @@ func dashboardHandler(w http.ResponseWriter, r *http.Request) {
 
 	wg.Wait()
 
-	// Define the HTML template
-	dashboardHTML := `
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<title>Service Dashboard</title>
-		<style>
-			body { font-family: Arial, sans-serif; }
-			table { width: 60%; margin: 50px auto; border-collapse: collapse; }
-			th, td { padding: 10px; text-align: left; border: 1px solid #ddd; }
-			th { background-color: #f4f4f4; }
-			.up { color: green; }
-			.down { color: red; }
-			button { margin: 5px; padding: 10px; border: none; border-radius: 5px; color: white; cursor: pointer; }
-			.start { background-color: green; }
-			.stop { background-color: red; }
-		</style>
-		<script>
-			function refreshPage() {
-				setTimeout(function(){
-					location.reload();
-				}, 5000); // Refresh every 5 seconds
-			}
-		</script>
-	</head>
-	<body onload="refreshPage()">
-		<h1 style="text-align: center;">Service Dashboard</h1>
-		<table>
-			<tr><th>Service</th><th>Status</th><th>Actions</th></tr>
-		{{range .}}
-			<tr>
-				<td>{{.Name}}</td>
-				<td class="{{.Status}}">{{.Status}}</td>
-				<td>
-					{{if eq .Status "down"}}
-					<form action="/start" method="post" style="display:inline;">
-						<input type="hidden" name="service" value="{{.Name}}">
-						<button type="submit" class="start">Start</button>
-					</form>
-					{{else}}
-					<form action="/stop" method="post" style="display:inline;">
-						<input type="hidden" name="service" value="{{.Name}}">
-						<button type="submit" class="stop">Stop</button>
-					</form>
-					{{end}}
-				</td>
-			</tr>
-		{{end}}
-		</table>
-	</body>
-	</html>`
+	// Parse the HTML template from the file
 
-	tmpl, err := template.New("dashboard").Parse(dashboardHTML)
+	tmpl, err := template.ParseFiles("./dashboard.html")
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("Template parsing error: %v", err)
+		log.Printf("Failed to parse template: %v", err)
+		result := fmt.Sprint(err)
+		//http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		w.Write([]byte(result))
 		return
 	}
+
 	err = tmpl.Execute(w, services)
 	if err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-		log.Printf("Template execution error: %v", err)
+		log.Printf("Failed to execute template: %v", err)
+		result := fmt.Sprint(err)
+		//http.Error(w, "Internal Server Error", err, http.StatusInternalServerError)
+		w.Write([]byte(result))
 		return
 	}
+
 }
 
 // handleControl handles start and stop requests
