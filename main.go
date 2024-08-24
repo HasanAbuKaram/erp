@@ -12,6 +12,11 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", homeHandler)
+	//http.HandleFunc("/status", statusHandler)
+	http.HandleFunc("/dashboard", dashboardHandler)
+
+	http.HandleFunc("/start", handleControl)
+	http.HandleFunc("/stop", handleControl)
 
 	fmt.Println("Starting the web server on port 8080...")
 	err := http.ListenAndServe(":8080", nil)
