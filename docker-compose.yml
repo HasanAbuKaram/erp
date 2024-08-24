@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   erp:
     build:
@@ -7,3 +5,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"  # Adjust port if necessary
+
