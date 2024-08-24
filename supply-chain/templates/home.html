@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ERP System</title>
+</head>
+<body>
+	<h1>ERP System</h1>
+	{{if .StatusMessage}}
+		<p>{{.StatusMessage}}</p>
+	{{end}}
+	<form action="/add" method="post">
+		<button type="submit">Add Item</button>
+	</form>
+	<form action="/view" method="get">
+		<button type="submit">View Items</button>
+	</form>
+</body>
+</html>
